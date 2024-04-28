@@ -17,4 +17,4 @@ class AtprotoUtils:
             raise Exception("Failed to login.")
 
     def post(self, message):
-        self.client.send_post(message)
+        self.client.send_post(text=message)

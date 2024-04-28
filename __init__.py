@@ -1,9 +1,10 @@
 from atproto import Client
-
 from dotenv import load_dotenv
 from _type_dicts import AtprotoInfo
 from utils import AtprotoUtils, EnvironmentUtils
 from events import PostNewFollowers
+import threading
+import time
 
 load_dotenv()
 
@@ -27,4 +28,13 @@ atproto_utils = AtprotoUtils(
     atproto_info
 )
 
-post_new_followers = PostNewFollowers(atproto_utils).start_cron()
+thread = threading.Thread(target=PostNewFollowers(
+    atproto_utils).start_cron, daemon=True)
+thread.start()
+
+try:
+    print("Bot is Running...")
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    print("")

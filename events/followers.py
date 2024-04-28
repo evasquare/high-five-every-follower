@@ -5,6 +5,7 @@ import random
 import schedule
 import time
 from _type_dicts import AtprotoUser
+from atproto import client_utils
 
 
 class PostNewFollowers:
@@ -28,15 +29,21 @@ class PostNewFollowers:
                 "handle": follower.handle
             }
             atproto_user = database.find_user(follower.did)
-            if atproto_user is None:
-                if database.insert_user(follower_info) == True:
-                    # message = random.choice(messages)
-                    # message.replace("<USER_HANDLE>", follower.handle)
-                    message = "test"
-                    self.atproto_utils.post(message)
+            if atproto_user is None and database.insert_user(follower_info):
+                message = random.choice(messages)
+                split = message.split("<USER_HANDLE>")
+
+                text_builder = client_utils.TextBuilder()
+                text_builder.text(split[0])
+                text_builder.mention(
+                    text="@" + follower.handle, did=follower.did)
+                for item in split[1:]:
+                    text_builder.text(item)
+
+                self.atproto_utils.post(text_builder)
 
     def start_cron(self):
-        # self.post_new_followers()
+        self.post_new_followers()
         schedule.every(5).minutes.do(self.post_new_followers)
         running = True
 
