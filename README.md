@@ -2,8 +2,6 @@
 
 # High Five Every Follower
 
-> Do you like high fives?
+> Do you like high fives? Try following me!
 
 "High Five Every Follower" is a simple [AT Proto](https://atproto.com) bot that high-fives every single new follower.
-
-The bot is available on [BlueSky Social (bsky.social)](https://bsky.app/profile/highfive-followers.bsky.social) platform.
