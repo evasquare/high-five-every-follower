@@ -16,6 +16,7 @@ class DatabaseUtils:
 
     def find_user(self, did) -> AtprotoUser | None:
         _, cursor = self.get_connection()
+
         cursor.execute(
             "SELECT * FROM followers WHERE did = ?", (did,)
         )
@@ -33,7 +34,9 @@ class DatabaseUtils:
     def insert_user(self, atproto_user: AtprotoUser) -> bool:
         if not atproto_user["did"] or not atproto_user["display_name"] or not atproto_user["handle"]:
             return False
+
         connection, cursor = self.get_connection()
+
         cursor.execute(
             "INSERT INTO followers (did, display_name, handle) VALUES (?, ?, ?)",
             (
@@ -42,6 +45,7 @@ class DatabaseUtils:
                 atproto_user["handle"],
             )
         )
+
         return self.commit_connection(connection)
 
     def get_connection(self) -> tuple[Connection, Cursor]:

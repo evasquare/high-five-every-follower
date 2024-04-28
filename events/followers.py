@@ -18,6 +18,7 @@ class PostNewFollowers:
         client = self.atproto_utils.client
         if client.me is None:
             raise Exception("Failed to login.")
+
         bot_did = client.me.did
         followers = client.get_followers(bot_did).followers
         database = DatabaseUtils()
@@ -28,23 +29,28 @@ class PostNewFollowers:
                 "display_name": follower.display_name,
                 "handle": follower.handle
             }
+
             atproto_user = database.find_user(follower.did)
             if atproto_user is None and database.insert_user(follower_info):
                 message = random.choice(messages)
-                split = message.split("<USER_HANDLE>")
 
-                text_builder = client_utils.TextBuilder()
-                text_builder.text(split[0])
-                text_builder.mention(
-                    text="@" + follower.handle, did=follower.did)
-                for item in split[1:]:
-                    text_builder.text(item)
-
-                self.atproto_utils.post(text_builder)
+                if message.find("<USER_HANDLE>") and message.count("<USER_HANDLE>") == 1:
+                    split = message.split("<USER_HANDLE>")
+                    sending_text = client_utils.TextBuilder()
+                    sending_text.text(split[0])
+                    sending_text.mention(
+                        text="@" + follower.handle, did=follower.did)
+                    for item in split[1:]:
+                        sending_text.text(item)
+                    self.atproto_utils.post(sending_text)
+                else:
+                    sending_text = message.replace(
+                        "<USER_HANDLE>", "@" + follower.handle)
+                    self.atproto_utils.post(sending_text)
 
     def start_cron(self):
         self.post_new_followers()
-        schedule.every(5).minutes.do(self.post_new_followers)
+        schedule.every(1).minutes.do(self.post_new_followers)
         running = True
 
         while running:

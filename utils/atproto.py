@@ -1,4 +1,5 @@
 from atproto import Client
+from atproto_client.utils import TextBuilder
 from _type_dicts import AtprotoInfo
 
 
@@ -16,5 +17,5 @@ class AtprotoUtils:
         if self.client.me is None:
             raise Exception("Failed to login.")
 
-    def post(self, message):
-        self.client.send_post(text=message)
+    def post(self, text: str | TextBuilder):
+        self.client.send_post(text)
