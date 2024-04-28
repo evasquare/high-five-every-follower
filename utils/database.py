@@ -1,6 +1,7 @@
 import sqlite3
-from sqlite3 import Connection, Cursor
+
 from _type_dicts import AtprotoUser
+from sqlite3 import Connection, Cursor
 
 
 class DatabaseUtils:

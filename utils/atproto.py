@@ -1,6 +1,6 @@
+from _type_dicts import AtprotoInfo
 from atproto import Client
 from atproto_client.utils import TextBuilder
-from _type_dicts import AtprotoInfo
 
 
 class AtprotoUtils:

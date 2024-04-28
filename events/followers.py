@@ -1,11 +1,12 @@
-from utils.atproto import AtprotoUtils
-from utils.database import DatabaseUtils
-from _messages import messages
 import random
 import schedule
 import time
+
+from _messages import messages
 from _type_dicts import AtprotoUser
 from atproto import client_utils
+from utils.atproto import AtprotoUtils
+from utils.database import DatabaseUtils
 
 
 class PostNewFollowers:

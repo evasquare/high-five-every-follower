@@ -1,10 +1,12 @@
-from atproto import Client
-from dotenv import load_dotenv
-from _type_dicts import AtprotoInfo
-from utils import AtprotoUtils, EnvironmentUtils
-from events import PostNewFollowers
 import threading
 import time
+
+from _type_dicts import AtprotoInfo
+from atproto import Client
+from dotenv import load_dotenv
+from events import PostNewFollowers
+from utils import AtprotoUtils, EnvironmentUtils
+
 
 load_dotenv()
 
