@@ -21,7 +21,7 @@ class DatabaseUtils:
         )
         self.commit_connection(connection)
 
-    def find_user(self, did) -> AtprotoUser | None:
+    def find_user(self, did: str) -> AtprotoUser | None:
         _, cursor = self.get_connection()
 
         cursor.execute(
