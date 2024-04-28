@@ -1,9 +1,9 @@
 from atproto import Client
-from type_dicts.atproto import AtProtoInfo
+from _type_dicts import AtprotoInfo
 
 
-class AtProtoUtils:
-    def __init__(self, client: Client, atproto_info: AtProtoInfo) -> None:
+class AtprotoUtils:
+    def __init__(self, client: Client, atproto_info: AtprotoInfo) -> None:
         self.client = client
         self.atproto_info = atproto_info
         self.login()
@@ -16,5 +16,5 @@ class AtProtoUtils:
         if self.client.me is None:
             raise Exception("Failed to login.")
 
-    def post(self, content):
-        self.client.send_post(content)
+    def post(self, message):
+        self.client.send_post(message)
