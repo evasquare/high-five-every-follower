@@ -2,7 +2,7 @@
 
 # High Five Every Follower
 
-> Do you like high-fives?
+> Do you like high fives?
 
 "High Five Every Follower" is a simple [AT Proto](https://atproto.com) bot that high-fives every single new follower.
 
