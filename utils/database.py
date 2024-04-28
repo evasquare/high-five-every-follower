@@ -10,7 +10,13 @@ class DatabaseUtils:
     def create_tables(self) -> None:
         connection, cursor = self.get_connection()
         cursor.execute(
-            "CREATE TABLE IF NOT EXISTS followers(did TEXT, display_name TEXT, handle TEXT)"
+            '''
+            CREATE TABLE IF NOT EXISTS followers (
+                did TEXT,
+                display_name TEXT,
+                handle TEXT
+            )
+            '''
         )
         self.commit_connection(connection)
 
@@ -18,7 +24,11 @@ class DatabaseUtils:
         _, cursor = self.get_connection()
 
         cursor.execute(
-            "SELECT * FROM followers WHERE did = ?", (did,)
+            '''
+            SELECT *
+            FROM followers
+            WHERE did = ?
+            ''',  (did,)
         )
         user = cursor.fetchone()
         if user is None:
@@ -38,7 +48,14 @@ class DatabaseUtils:
         connection, cursor = self.get_connection()
 
         cursor.execute(
-            "INSERT INTO followers (did, display_name, handle) VALUES (?, ?, ?)",
+            '''
+            INSERT INTO followers (
+                did,
+                display_name,
+                handle
+            )
+            VALUES (?, ?, ?)
+            ''',
             (
                 atproto_user["did"],
                 atproto_user["display_name"],
