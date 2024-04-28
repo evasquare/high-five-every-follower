@@ -17,5 +17,6 @@ class AtprotoUtils:
         if self.client.me is None:
             raise Exception("Failed to login.")
 
-    def post(self, text: str | TextBuilder):
-        self.client.send_post(text)
+    def post(self, text: str | TextBuilder) -> str:
+        created_post = self.client.send_post(text)
+        return created_post.cid

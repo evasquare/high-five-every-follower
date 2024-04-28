@@ -10,15 +10,18 @@ class DatabaseUtils:
     def create_tables(self) -> None:
         connection, cursor = self.get_connection()
         cursor.execute(
-            "CREATE TABLE IF NOT EXISTS followers(did TEXT, display_name TEXT, handle TEXT)"
+            "CREATE TABLE IF NOT EXISTS followers(did TEXT, display_name TEXT, handle TEXT, post_cid TEXT)"
         )
         self.commit_connection(connection)
 
-    def find_user(self, did) -> AtprotoUser | None:
+    def find_follower(self, did) -> AtprotoUser | None:
         _, cursor = self.get_connection()
 
         cursor.execute(
-            "SELECT * FROM followers WHERE did = ?", (did,)
+            '''
+            SELECT * FROM followers
+            WHERE did = ?
+            ''', (did,)
         )
         user = cursor.fetchone()
         if user is None:
@@ -27,22 +30,43 @@ class DatabaseUtils:
         atproto_user: AtprotoUser = {
             "did": user[0],
             "display_name": user[1],
-            "handle": user[2]
+            "handle": user[2],
+            "post_cid": user[3]
         }
         return atproto_user
 
-    def insert_user(self, atproto_user: AtprotoUser) -> bool:
-        if not atproto_user["did"] or not atproto_user["display_name"] or not atproto_user["handle"]:
-            return False
-
+    def insert_follower(self, atproto_user: AtprotoUser) -> bool:
         connection, cursor = self.get_connection()
 
         cursor.execute(
-            "INSERT INTO followers (did, display_name, handle) VALUES (?, ?, ?)",
+            '''
+            INSERT INTO followers (did, display_name, handle, post_cid)
+            VALUES (?, ?, ?, ?)
+            ''',
             (
                 atproto_user["did"],
                 atproto_user["display_name"],
                 atproto_user["handle"],
+                atproto_user["post_cid"]
+            )
+        )
+
+        return self.commit_connection(connection)
+
+    def update_follower(self, atproto_user: AtprotoUser) -> bool:
+        connection, cursor = self.get_connection()
+
+        cursor.execute(
+            '''
+            UPDATE followers
+            SET display_name = ?, handle = ?, post_cid = ?
+            WHERE did = ?
+            ''',
+            (
+                atproto_user["did"],
+                atproto_user["display_name"],
+                atproto_user["handle"],
+                atproto_user["post_cid"]
             )
         )
 
