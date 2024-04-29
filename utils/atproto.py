@@ -18,4 +18,8 @@ class AtprotoUtils:
             raise Exception("Failed to login.")
 
     def post(self, text: str | TextBuilder):
-        self.client.send_post(text)
+        try:
+            self.client.send_post(text)
+        except Exception as e:
+            print("Failed to post: ", text)
+            print(e)
