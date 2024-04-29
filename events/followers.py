@@ -15,7 +15,7 @@ class PostNewFollowers:
     def __init__(self, atproto_utils: AtprotoUtils) -> None:
         self.atproto_utils = atproto_utils
 
-    def post_new_followers(self):
+    def post_new_followers(self) -> None:
         client = self.atproto_utils.client
         if client.me is None:
             raise Exception("Failed to login.")
@@ -49,7 +49,7 @@ class PostNewFollowers:
                         "<USER_HANDLE>", "@" + follower.handle)
                     self.atproto_utils.post(sending_text)
 
-    def start_cron(self):
+    def start_cron(self) -> None:
         self.post_new_followers()
         schedule.every(1).minutes.do(self.post_new_followers)
         running = True

@@ -9,7 +9,7 @@ class AtprotoUtils:
         self.atproto_info = atproto_info
         self.login()
 
-    def login(self):
+    def login(self) -> None:
         self.client.login(
             self.atproto_info['handle'],
             self.atproto_info["password"]
@@ -17,7 +17,7 @@ class AtprotoUtils:
         if self.client.me is None:
             raise Exception("Failed to login.")
 
-    def post(self, text: str | TextBuilder):
+    def post(self, text: str | TextBuilder) -> None:
         try:
             self.client.send_post(text)
         except Exception as e:
