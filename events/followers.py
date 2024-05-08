@@ -51,7 +51,7 @@ class PostNewFollowers:
 
     def start_cron(self) -> None:
         self.post_new_followers()
-        schedule.every(1).minutes.do(self.post_new_followers)
+        schedule.every(2).minutes.do(self.post_new_followers)
         running = True
 
         while running:
