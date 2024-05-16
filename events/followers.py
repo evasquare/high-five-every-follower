@@ -1,6 +1,7 @@
 import random
 import schedule
 import time
+from datetime import datetime
 
 from _messages import messages
 from _type_dicts import AtprotoUser
@@ -17,6 +18,8 @@ class PostNewFollowers:
         self.atproto_utils = atproto_utils
 
     def post_new_followers(self) -> None:
+        timeStamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         client = self.atproto_utils.client
         if client.me is None:
             raise Exception("Failed to login.")
@@ -26,8 +29,10 @@ class PostNewFollowers:
         try:
             followers = client.get_followers(bot_did).followers
         except AtProtocolError:
-            print("Failed to get followers.")
+            print(f"{timeStamp}: Failed to get followers.")
             return
+
+        print(f"{timeStamp}: Successfully read followers.")
 
         database = DatabaseUtils()
 
@@ -58,7 +63,7 @@ class PostNewFollowers:
 
     def start_cron(self) -> None:
         self.post_new_followers()
-        schedule.every(1).minutes.do(self.post_new_followers)
+        schedule.every(2).minutes.do(self.post_new_followers)
         running = True
 
         while running:
