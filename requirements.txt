@@ -1,6 +1,6 @@
 annotated-types==0.6.0
 anyio==4.3.0
-atproto==0.0.46
+atproto==0.0.47
 certifi==2024.2.2
 cffi==1.16.0
 click==8.1.7
