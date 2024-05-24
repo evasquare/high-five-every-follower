@@ -29,7 +29,8 @@ class DatabaseUtils:
             SELECT *
             FROM followers
             WHERE did = ?
-            ''',  (did,)
+            ''',
+            (did,)
         )
         user = cursor.fetchone()
         if user is None:
